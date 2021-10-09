@@ -14,7 +14,7 @@ def get_browser():
     opts.headless = True
 
     """Get the browser (a "driver")."""
-    browser = webdriver.Firefox(options=opts, executable_path="c:/users/pa2/bin/geckodriver.exe")
+    browser = webdriver.Firefox(options=opts, executable_path="/usr/bin/geckodriver")
     return browser
 
 
