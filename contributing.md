@@ -11,3 +11,6 @@ Needs much more of UI to gather the results.
 The code to get the author is messy because different Amazon pages
 mark the author differently.  Maybe python 3.10 structured pattern
 matching would be a nicer way to deal with this multi-pass logic.
+
+Adding other ebook sellers (versobooks.com, manning.com, google play, 
+barnes and noble)

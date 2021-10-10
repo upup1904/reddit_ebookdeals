@@ -1,6 +1,10 @@
+This is procedure to see the code work on AWS, pretty much the same
+steps should work on your PC, the big variable will probably be how
+you get geckodriver and where it is locateed.  I usually use the code
+wit python 3.6.6 on windows 10.
+
 make a spot instance Ubunto 20.04, i used t3.micro
-allocate an elastic ip  - 54.156.48.95
-give it security group allowing ssh
+allocate an elastic ip and give it security group  so you can connect
 
 connect to it and run:
 
@@ -68,21 +72,11 @@ client_secret = 6TZfd4A-p0O0yy77_uWa1cZrd66INw
 client_id= vJdomwyqJ8xb1w
 ```
 
-The first scrpt writes out to /tmp/dealt.txt
+The first scrpt writes out to /tmp/deal.txt
 and the second script posts that file, using the configurations
-above, to /ebookdeals
+above, to r/ebookdeals
 
 - - -  -
 
-The script file, frugal.sh, is just a sample.  It calls form_it, shows what it's about to
-post, and if you hit <enter> it posts it (using the configs set up below)  But you
-could coordinate the two scripts however you want.
-
-
-
-
-
-
-
-
-
+The script file, frugal.sh, is just a sample.  It calls form_it.py, shows what it's about to
+post, and if you hit <enter> it posts it (using the configs set up below)  But you probably want to write your own script. 
