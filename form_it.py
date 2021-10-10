@@ -69,9 +69,7 @@ def get_az_canonical(soup):
             link_parts = link_text.split('/')
             # typical link looks like //https:.../.../dp/B00000
             # the part before dp often causes probems and isn't needed
-            print(link_parts)
             if link_parts[-2] == 'dp' and link_parts[-4] == 'www.amazon.com':
-                print(f"removing {link_parts.pop(-3)}")
                 link_text = "/".join(link_parts)
                 print(f"fixed url: {link_text}")
             else:
