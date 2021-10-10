@@ -40,11 +40,11 @@ click on "create another app", it will brin gup a dialog
 
 * Give it any name you want.  
 * Choose "script"
-* Give it any descript you want
+* Give it any description you want
 * For both urls, put in any url you want, e.g. https://reddit.commit
 * Click "create"
 
-On the resulting screent, you'll get two strings or random chars.
+On the resulting screent, you'll get two strings of random chars.
 "secret" is prominent.  On my browser, the "id" is kind of
 inconspicous, it's in small print under the app name, with no label.
 Anyway, you need the id and secret below:
