@@ -2,7 +2,6 @@
 # /tmp/deal.txt
 # other script, post_it.py, posts from that location
 
-import codecs
 import os
 import re
 import sys
@@ -13,12 +12,23 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 
 
+def gecko_location():
+    if os.path.isfile("c:/bin/geckodriver.exe"):
+        return "c:/users/pa2/bin/geckodriver.exe"
+    else:
+        if os.path.isfile("/usr/bin/geckodriver"):
+            return "/usr/bin/geckodriver"
+    raise RuntimeError("Need location of geckodriver. "
+                       "Edit function gecko_location")
+
+
 def get_browser():
     opts = Options()
     opts.headless = True
 
     """Get the browser (a "driver")."""
-    browser = webdriver.Firefox(options=opts, executable_path="/usr/bin/geckodriver")
+    geckopath = gecko_location()
+    browser = webdriver.Firefox(options=opts, executable_path=geckopath)
     return browser
 
 
@@ -54,12 +64,14 @@ def get_az_price_kindlePriceLable(soup):
         return None
     return res[0]
 
+
 def get_az_price_InputDisplay(soup):
     a = soup.find_all('input')
     for i in a:
         if 'name' in i.attrs and i.attrs['name'] == 'displayedPrice':
             return(i.attrs['value'])
     return None
+
 
 def get_az_canonical(soup):
     x = soup.find_all("link")
@@ -96,19 +108,22 @@ def get_az_author(soup):
     spans = soup.find_all('span')
     got_it = None
     for span in spans:
-        if span.text.strip().lower() == "(author)":
-            got_it = span
+        if span.text.strip().lower() in ["(author)", "(author),",
+                                         "(editor)", "(editor),"
+                                         "(translator)", "(translator),"]:
+            got_it = span.text.strip().lower()
             break
     if got_it:
         # author name might be in previous, one above that... try three times
         author = None
         entity = span
+        editor_tag = " (ed.)" if "editor" in got_it else ""
         for _ in range(0, 3):
             entity = entity.previous
             try:
                 author = entity.text.strip()
                 if author:
-                    return(author)
+                    return(author + editor_tag)
             except Exception:
                 pass
         return("Can't find author")
