@@ -1,3 +1,7 @@
+# read url from command line and write postable version out in
+# /tmp/deal.txt
+# other script, post_it.py, posts from that location
+
 import codecs
 import os
 import re
@@ -66,7 +70,7 @@ def get_az_canonical(soup):
             # typical link looks like //https:.../.../dp/B00000
             # the part before dp often causes probems and isn't needed
             print(link_parts)
-            if link_parts[-2] == 'dp' and link_parts[-4]=='www.amazon.com':
+            if link_parts[-2] == 'dp' and link_parts[-4] == 'www.amazon.com':
                 print(f"removing {link_parts.pop(-3)}")
                 link_text = "/".join(link_parts)
                 print(f"fixed url: {link_text}")
@@ -74,11 +78,12 @@ def get_az_canonical(soup):
                 print(f"Nothing to fix? {link_text}")
             return(link_text)
 
+
 def get_az_author(soup):
     t = soup.find(class_="authorNameLink")
     if t:
         return t.contents[0].strip()
-    # if that works, som pages have a follo-the-author class, try that
+    # if that doesn't work, some pages have a follo-the-author class, try that
     follow = soup.select('div[class*=_follow-the-author]')
     if follow:
         author_tag = follow[0]
@@ -97,10 +102,20 @@ def get_az_author(soup):
             got_it = span
             break
     if got_it:
-        return(span.previous.text.strip())
+        # author name might be in previous, one above that... try three times
+        author = None
+        entity = span
+        for _ in range(0, 3):
+            entity = entity.previous
+            try:
+                author = entity.text.strip()
+                if author:
+                    return(author)
+            except Exception:
+                pass
+        return("Can't find author")
     else:
         return("Can't find author")
-
 
 
 def get_soup(url):
@@ -119,7 +134,7 @@ def save_soup(soup):
 
 def main():
     url = sys.argv[1]
-    if url == "post":  #user just wants to use the next part of the calling script
+    if url == "post":  # user just wants to use the next part of the calling script
         exit(0)
     soup = get_soup(url)
     save_soup(soup)
@@ -139,4 +154,5 @@ def main():
         deal.write(f"sale = {booktitle}|^|{bookurl}\n")
 
 
-main()
+if __name__ == "__main__":
+    main()

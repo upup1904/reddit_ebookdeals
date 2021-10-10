@@ -26,6 +26,47 @@ python form_it.py  https://go.ereaderiq.com/us/s/1/B0722D6PCG
 # if you installed a different linux you might need
 # to edit form_it.py to look for geckodriver in a different location
 
+For post_it, you have to set up an app for your reddit account,
+that is just a formality which makes sure you're not running something
+by mistake, I believe.
+
+While logged in go to
+
+https://www.reddit.com/prefs/apps
+Give it any name you want.  Choose "script"
+Give it any descript you want
+For both urls, put in any url you want, e.g. https://reddit.commit
+Click "create"
+It will give you a "secret", and in small print under the app name,
+a string of numbers and letters that is the "id"
+
+Make a directory /secrets
+and a file:
+/secrets/einkcheap.dev
+
+(einkcheap is the name of the account I use to post and it's hardcoded
+in the script but  the filename is arbitrary and doesn't have any
+effect)
+
+the contents of the file:
+
+```
+[ebooks]
+username = your_reddit_name_here
+password = your_regular_reddit_passowrd
+client_secret = 6TZfd4A-p0O0yy77_uWa1cZrd66INw
+client_id= vJdomwyqJ8xb1w
+```
+
+The first scrpt writes out to /tmp/dealt.txt
+and the second script posts that file, using the configurations
+above, to /ebookdeals
+
+- - -  -
+
+The script file you can adapt if you want it, it is something
+I use on my pc, that tries to warn if the script missed an element
+
 
 
 
