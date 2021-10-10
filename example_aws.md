@@ -5,13 +5,15 @@ give it security group allowing ssh
 connect to it and run:
 
 
-
+```
 sudo apt update && sudo apt -y upgrade
 
 python3 --version
+```
 
-# For me that gets 3.8.10
+For me that gets 3.8.10
 
+```
 sudo apt install -y  python3.8-venv
 sudo apt install -y python3-pip
 sudo apt install -y firefox-geckodriver
@@ -22,23 +24,31 @@ python3 -m venv .venv
 . .venv/bin/activate
 pip install -r requirements.txt
 python form_it.py  https://go.ereaderiq.com/us/s/1/B0722D6PCG
+```
 
-# if you installed a different linux you might need
-# to edit form_it.py to look for geckodriver in a different location
+if you installed a different linux you might need to edit form_it.py to look for geckodriver in a different location
 
 For post_it, you have to set up an app for your reddit account,
 that is just a formality which makes sure you're not running something
 by mistake, I believe.
 
-While logged in go to
+While  you are logged in go to
 
 https://www.reddit.com/prefs/apps
-Give it any name you want.  Choose "script"
-Give it any descript you want
-For both urls, put in any url you want, e.g. https://reddit.commit
-Click "create"
-It will give you a "secret", and in small print under the app name,
-a string of numbers and letters that is the "id"
+
+click on "create another app", it will brin gup a dialog
+
+* Give it any name you want.  
+* Choose "script"
+* Give it any descript you want
+* For both urls, put in any url you want, e.g. https://reddit.commit
+* Click "create"
+
+On the resulting screent, you'll get two strings or random chars.
+"secret" is prominent.  On my browser, the "id" is kind of
+inconspicous, it's in small print under the app name, with no label.
+Anyway, you need the id and secret below:
+
 
 Make a directory /secrets
 and a file:
@@ -64,8 +74,9 @@ above, to /ebookdeals
 
 - - -  -
 
-The script file you can adapt if you want it, it is something
-I use on my pc, that tries to warn if the script missed an element
+The script file, frugal.sh, is just a sample.  It calls form_it, shows what it's about to
+post, and if you hit <enter> it posts it (using the configs set up below)  But you
+could coordinate the two scripts however you want.
 
 
 
