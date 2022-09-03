@@ -7,8 +7,9 @@ import re
 import sys
 
 from bs4 import BeautifulSoup
-from selenium import webdriver
+from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver import Firefox
 
 
 def gecko_location():
@@ -27,7 +28,8 @@ def get_browser():
 
     """Get the browser (a "driver")."""
     geckopath = gecko_location()
-    browser = webdriver.Firefox(options=opts, executable_path=geckopath)
+    service = Service(geckopath)
+    browser = Firefox(service=service, options=opts)
     return browser
 
 
