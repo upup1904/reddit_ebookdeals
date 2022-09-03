@@ -6,7 +6,6 @@ import os
 import re
 import sys
 
-
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -14,7 +13,7 @@ from selenium.webdriver.firefox.options import Options
 
 def gecko_location():
     if os.path.isfile("c:/bin/geckodriver.exe"):
-        return "c:/users/pa2/bin/geckodriver.exe"
+        return "c:/bin/geckodriver.exe"
     else:
         if os.path.isfile("/usr/bin/geckodriver"):
             return "/usr/bin/geckodriver"
