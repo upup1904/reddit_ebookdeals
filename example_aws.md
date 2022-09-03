@@ -68,7 +68,7 @@ the contents of the file:
 [ebooks]
 username = your_reddit_name_here
 password = your_regular_reddit_passowrd
-client_secret = 6TZfd4A-p0O0yy77_uWa1cZrd66INw
+client_secret = 6TZfd... [the secret you got from reddit when you enabled the personal use script at https://www.reddit.com/prefs/apps]
 client_id= vJdomwyqJ8xb1w
 ```
 
