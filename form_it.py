@@ -73,24 +73,6 @@ def get_az_price_InputDisplay(soup):
             return(i.attrs['value'])
     return None
 
-
-def get_az_canonical(soup):
-    x = soup.find_all("link")
-    for link in x:
-        if "rel" in link.attrs.keys() and "canonical" in link.attrs["rel"]:
-            link_text = link['href']
-            link_parts = link_text.split('/')
-            # typical link looks like //https:.../.../dp/B00000
-            # the part before dp often causes probems and isn't needed
-            if link_parts[-2] == 'dp' and link_parts[-4] == 'www.amazon.com':
-                link_parts.pop(-3)
-                link_text = "/".join(link_parts)
-                print(f"fixed url: {link_text}")
-            else:
-                print(f"Nothing to fix? {link_text}")
-    return(link_text)
-
-
 def get_az_author(soup):
     t = soup.find(class_="authorNameLink")
     if t:
@@ -133,12 +115,17 @@ def get_az_author(soup):
         return("Can't find author")
 
 
-def get_soup(url):
+def get_soup_and_direct_link(url: str) -> tuple[BeautifulSoup, str]:
+    """
+    :param url:
+    :return: 2-tuple, the Soup to be parsed and the url to use in page (after redirection)
+    """
     b = get_browser()
     b.get(url)
     html = b.page_source
+    current_url = b.current_url
     b.close()
-    return BeautifulSoup(html, 'html.parser')
+    return BeautifulSoup(html, 'html.parser'), current_url
 
 
 def save_soup(soup):
@@ -151,7 +138,8 @@ def main():
     url = sys.argv[1]
     if url == "post":  # user just wants to use the next part of the calling script
         exit(0)
-    soup = get_soup(url)
+    soup, final_page_url = get_soup_and_direct_link(url)
+    # final_page_url is what we got redirected to
     save_soup(soup)
     title = get_az_title(soup)
     price = get_az_price_kindlePriceLable(soup)
@@ -161,7 +149,7 @@ def main():
         price = "Can't find price"
     author = get_az_author(soup)
     booktitle = f"{title}; {author}; (Kindle; {price})"
-    bookurl = get_az_canonical(soup)
+    bookurl = final_page_url
     print(booktitle)
     with open("/tmp/deal.txt", "w+") as deal:
         deal.truncate()
